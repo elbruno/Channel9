@@ -1,0 +1,142 @@
+<Capabilities>
+    <Capability Name="internetClient" />
+    <DeviceCapability Name="bluetooth.genericAttributeProfile">
+      <Device Id="any">
+        <Function Type="name:heartRate"/>
+        <Function Type="name:battery"/>
+      </Device>
+    </DeviceCapability>
+</Capabilities>
+
+        private async Task<bool> GetHrAndBatteryDevice()
+        {
+            StatusInformation = "Start search for devices, Battery";
+            var devices = await DeviceInformation.FindAllAsync(
+                GattDeviceService.GetDeviceSelectorFromUuid(GattServiceUuids.Battery));
+            if (null == devices || devices.Count <= 0) return true;
+            foreach (var device in devices.Where(device => device.Name == "Polar H7 498C1817"))
+            {
+                _devicePolarBattery = device;
+                StatusInformation2 = "Found battery device";
+                await DisplayBatteryLevel();
+                break;
+            }
+
+            StatusInformation = "Start search for devices, HR";
+            devices = await DeviceInformation.FindAllAsync(
+                GattDeviceService.GetDeviceSelectorFromUuid(GattServiceUuids.HeartRate));
+            if (null == devices || devices.Count <= 0) return true;
+            foreach (var device in devices.Where(device => device.Name == "Polar H7 498C1817"))
+            {
+                _devicePolarHr = device;
+                StatusInformation2 = "Found hr device";
+                await SuscribeToHrValues();
+                break;
+            }
+
+            StatusInformation = $"Found HR [{(_devicePolarHr != null)}] Battery [{(_devicePolarBattery != null)}]";
+            return (_devicePolarHr != null && _devicePolarBattery != null);
+        }
+
+        private async Task DisplayBatteryLevel()
+        {
+            var service = await GattDeviceService.FromIdAsync(_devicePolarBattery.Id);
+            var characteristics = service?.GetAllCharacteristics();
+            if (characteristics == null || characteristics.Count <= 0) return;
+            var characteristic = characteristics[0];
+            try
+            {
+                var batteryLevelValue = await characteristic.ReadValueAsync();
+                var arrayLenght = (int)batteryLevelValue.Value.Length;
+                var batteryData = new byte[arrayLenght];
+                DataReader.FromBuffer(batteryLevelValue.Value).ReadBytes(batteryData);
+
+                // battery level is on first element
+                var batteryLevel = batteryData[0];
+                Debug.WriteLine(batteryLevel);
+                BatteryValue = $"{batteryLevel} %";
+            }
+            catch (Exception exception)
+            {
+                StatusInformation2 = exception.ToString();
+            }
+        }
+
+        private async Task SuscribeToHrValues()
+        {
+            var service = await GattDeviceService.FromIdAsync(_devicePolarHr.Id);
+            if (null == service) return;
+
+            var characteristics = service.GetAllCharacteristics();
+            if (null == characteristics || characteristics.Count <= 0) return;
+            foreach (var characteristic in characteristics)
+            {
+                try
+                {
+                    characteristic.ValueChanged += GattCharacteristic_ValueChanged;
+                    await
+                        characteristic.WriteClientCharacteristicConfigurationDescriptorAsync(
+                            GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                }
+                catch (Exception exception)
+                {
+                    Debug.WriteLine(exception);
+                }
+            }
+        }
+
+        private void GattCharacteristic_ValueChanged(GattCharacteristic sender, GattValueChangedEventArgs args)
+        {
+            if (args == null) return;
+            if (args.CharacteristicValue.Length == 0) return;
+
+            var arrayLenght = (int)args.CharacteristicValue.Length;
+            var hrData = new byte[arrayLenght];
+            DataReader.FromBuffer(args.CharacteristicValue).ReadBytes(hrData);
+
+            //Convert to string  
+            var hrValue = ProcessData(hrData);
+            Debug.WriteLine(hrValue);
+            HeartRateValue = hrValue.ToString();
+
+        }
+
+        private int ProcessData(byte[] data)
+        {
+            // Heart Rate profile defined flag values
+            const byte HEART_RATE_VALUE_FORMAT = 0x01;
+            const byte ENERGY_EXPANDED_STATUS = 0x08;
+
+            byte currentOffset = 0;
+            byte flags = data[currentOffset];
+            bool isHeartRateValueSizeLong = ((flags & HEART_RATE_VALUE_FORMAT) != 0);
+
+            currentOffset++;
+
+            ushort heartRateMeasurementValue = 0;
+
+            if (isHeartRateValueSizeLong)
+            {
+                heartRateMeasurementValue = (ushort)((data[currentOffset + 1] << 8) + data[currentOffset]);
+                currentOffset += 2;
+            }
+            else
+            {
+                heartRateMeasurementValue = data[currentOffset];
+            }
+
+            return heartRateMeasurementValue;
+        }
+
+
+
+
+        [NotifyPropertyChangedInvocator]
+        private async void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+             {
+                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+             });
+        }
