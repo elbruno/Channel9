@@ -11,6 +11,7 @@ namespace ElBruno.UsbHackingConsoleTest
         {
             _device = new USBInterface("vid_1294", "pid_1320");
             _device.Connect();
+
             var line = Console.ReadLine();
             while (line != null && line != "E")
             {
