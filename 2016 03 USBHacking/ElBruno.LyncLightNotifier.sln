@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 Tests", "03 Tests", "{54DB01D5-3C10-4E36-BC8E-0A54E7DE441B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 USB HID Driver", "00 USB HID Driver", "{8B670D6A-0F91-423B-AB87-C76999D1F36B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D5DA881A-2CD0-4371-976C-5E30A00DD812}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2DFF4199-EAD2-446B-89CE-5A8460EE6887}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Light Notifier", "01 Light Notifier", "{6081BD9E-A0F5-4CB8-A251-C5211EC28971}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElBruno.LightNotifier", "ElBruno.LightNotifier\ElBruno.LightNotifier.csproj", "{B16382D9-EAE8-4D15-8725-7793DD95164A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElBruno.LightNotifier.ConsoleTest", "ElBruno.LightNotifier.ConsoleTest\ElBruno.LightNotifier.ConsoleTest.csproj", "{F777F1DE-0D18-4BE9-9BBD-916F0B5BFFA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "USBHIDDRIVER", "USBHIDDRIVER\USBHIDDRIVER.csproj", "{58F64D08-1159-4A19-9EC4-DDD5ED056946}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 Apps", "02 Apps", "{4C1CA4F7-7F29-4E34-8E63-C5821155AC17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElBruno.LyncLightNotifier", "ElBruno.LyncLightNotifier\ElBruno.LyncLightNotifier.csproj", "{B6E80581-056A-4E18-98B4-3234E09055E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B16382D9-EAE8-4D15-8725-7793DD95164A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B16382D9-EAE8-4D15-8725-7793DD95164A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B16382D9-EAE8-4D15-8725-7793DD95164A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B16382D9-EAE8-4D15-8725-7793DD95164A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F777F1DE-0D18-4BE9-9BBD-916F0B5BFFA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F777F1DE-0D18-4BE9-9BBD-916F0B5BFFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F777F1DE-0D18-4BE9-9BBD-916F0B5BFFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F777F1DE-0D18-4BE9-9BBD-916F0B5BFFA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58F64D08-1159-4A19-9EC4-DDD5ED056946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58F64D08-1159-4A19-9EC4-DDD5ED056946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58F64D08-1159-4A19-9EC4-DDD5ED056946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58F64D08-1159-4A19-9EC4-DDD5ED056946}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6E80581-056A-4E18-98B4-3234E09055E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6E80581-056A-4E18-98B4-3234E09055E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6E80581-056A-4E18-98B4-3234E09055E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6E80581-056A-4E18-98B4-3234E09055E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B16382D9-EAE8-4D15-8725-7793DD95164A} = {6081BD9E-A0F5-4CB8-A251-C5211EC28971}
+		{F777F1DE-0D18-4BE9-9BBD-916F0B5BFFA9} = {54DB01D5-3C10-4E36-BC8E-0A54E7DE441B}
+		{58F64D08-1159-4A19-9EC4-DDD5ED056946} = {8B670D6A-0F91-423B-AB87-C76999D1F36B}
+		{B6E80581-056A-4E18-98B4-3234E09055E6} = {4C1CA4F7-7F29-4E34-8E63-C5821155AC17}
+	EndGlobalSection
+EndGlobal
